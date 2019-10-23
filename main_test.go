@@ -11,7 +11,6 @@ import (
 )
 
 func TestProcessEnvDir(t *testing.T) {
-
 	envdir, test := envdir()
 	defer os.RemoveAll(envdir) // clean up
 
@@ -26,7 +25,6 @@ func TestProcessEnvDir(t *testing.T) {
 }
 
 func TestExecEnvCmd(t *testing.T) {
-
 	envdir, _ := envdir()
 	defer os.RemoveAll(envdir) // clean up
 
@@ -38,7 +36,6 @@ func TestExecEnvCmd(t *testing.T) {
 
 // Create tmp env dir and files
 func envdir() (envdir string, test []string) {
-
 	items := []struct {
 		file  string
 		value string
@@ -56,13 +53,15 @@ func envdir() (envdir string, test []string) {
 
 	// Create tmp files
 	test = make([]string, 0, len(items))
+
 	for _, env := range items {
 		tmpFile := filepath.Join(envdir, env.file)
 		test = append(test, fmt.Sprintf("%s=%s", env.file, env.value))
+
 		if err := ioutil.WriteFile(tmpFile, []byte(env.value), 0666); err != nil {
 			log.Fatal(err)
-
 		}
 	}
+
 	return envdir, test
 }
